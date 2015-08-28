@@ -2751,7 +2751,7 @@ bool LoadBlockIndex()
         pchMessageStart[1] = 0xc1;
         pchMessageStart[2] = 0xb7;
         pchMessageStart[3] = 0xdc;
-        hashGenesisBlock = uint256("0xf5ae71e26c74beacc88382716aced69cddf3dffff24f384e1808905e0188f68f");
+        hashGenesisBlock = uint256("0x2670dc9377f53274609c6e2def4430f53d553346532e486686da613b82e53257");
     }
 
     //
@@ -2803,7 +2803,7 @@ bool InitBlockIndex() {
         if (fTestNet)
         {
             block.nTime    = 1440787916;
-            block.nNonce   = 0;
+            block.nNonce   = 26491;
         }
 
         //// debug print
@@ -2812,7 +2812,7 @@ bool InitBlockIndex() {
         printf("%s\n", hashGenesisBlock.ToString().c_str());
         printf("%s\n", block.hashMerkleRoot.ToString().c_str());
         assert(block.hashMerkleRoot == uint256("0x6e2fd00887de98eb6da9b672c82fbddaa99a8a1d97fc52a4d89f1faa2fd8c0da"));
-         
+
         // If genesis block hash does not match, then generate new genesis hash.
         if (true && block.GetHash() != hashGenesisBlock)
         {
@@ -2822,7 +2822,7 @@ bool InitBlockIndex() {
             uint256 hashTarget = CBigNum().SetCompact(block.nBits).getuint256();
             uint256 thash;
             char scratchpad[SCRYPT_SCRATCHPAD_SIZE];
- 
+
             loop
             {
 #if defined(USE_SSE2)
