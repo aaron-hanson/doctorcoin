@@ -1,0 +1,9 @@
+Building Doctorcoin
+
+See doc/readme-qt.rst for instructions on building Doctorcoin-Qt,
+the intended-for-end-users, nice-graphical-interface, reference
+implementation of Doctorcoin.
+
+See doc/build-*.txt for instructions on building doctorcoind,
+the intended-for-services, no-graphical-interface, reference
+implementation of Doctorcoin.
