@@ -1100,7 +1100,8 @@ int64 static GetBlockValue(int nHeight, int64 nFees)
     return nSubsidy + nFees;
 }
 
-static const int64 nTargetTimespan = 1.4 * 24 * 60 * 60; // Doctorcoin: 1.4 days
+//static const int64 nTargetTimespan = 1.4 * 24 * 60 * 60; // Doctorcoin: 1.4 days
+static const int64 nTargetTimespan = 5 * 60; // Doctorcoin: 1.4 days
 static const int64 nTargetSpacing = 60; // Doctorcoin: 1 minute
 static const int64 nInterval = nTargetTimespan / nTargetSpacing;
 
