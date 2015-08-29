@@ -35,7 +35,7 @@ CTxMemPool mempool;
 unsigned int nTransactionsUpdated = 0;
 
 map<uint256, CBlockIndex*> mapBlockIndex;
-uint256 hashGenesisBlock("0x12a765e31ffd4059bada1e25190f6e98c99d9714d334efa41a195a7e7e04bfe2");
+uint256 hashGenesisBlock("0x");
 static CBigNum bnProofOfWorkLimit(~uint256(0) >> 20); // Doctorcoin: starting difficulty is 1 / 2^12
 CBlockIndex* pindexGenesisBlock = NULL;
 int nBestHeight = -1;
@@ -2751,7 +2751,7 @@ bool LoadBlockIndex()
         pchMessageStart[1] = 0xad;
         pchMessageStart[2] = 0xba;
         pchMessageStart[3] = 0xbe;
-        hashGenesisBlock = uint256("0x2670dc9377f53274609c6e2def4430f53d553346532e486686da613b82e53257");
+        hashGenesisBlock = uint256("0x");
     }
 
     //
@@ -2803,7 +2803,7 @@ bool InitBlockIndex() {
         if (fTestNet)
         {
             block.nTime    = 1440787916;
-            block.nNonce   = 26491;
+            block.nNonce   = 0;
         }
 
         //// debug print
@@ -2811,7 +2811,7 @@ bool InitBlockIndex() {
         printf("%s\n", hash.ToString().c_str());
         printf("%s\n", hashGenesisBlock.ToString().c_str());
         printf("%s\n", block.hashMerkleRoot.ToString().c_str());
-        assert(block.hashMerkleRoot == uint256("0x6e2fd00887de98eb6da9b672c82fbddaa99a8a1d97fc52a4d89f1faa2fd8c0da"));
+        assert(block.hashMerkleRoot == uint256("0x"));
 
         // If genesis block hash does not match, then generate new genesis hash.
         if (true && block.GetHash() != hashGenesisBlock)
