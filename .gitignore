@@ -13,7 +13,8 @@ src/test_doctorcoin
 
 # Compilation and Qt preprocessor part
 *.qm
-Makefile
+Makefile*
+object_script.doctorcoin-qt.*
 doctorcoin-qt
 Doctorcoin-Qt.app
 
