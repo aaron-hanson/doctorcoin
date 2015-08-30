@@ -2,7 +2,8 @@ Doctorcoin 0.8.x BETA
 ====================
 
 Copyright (c) 2009-2014 Bitcoin Developers
-Copyright (c) 2011-2014 Doctorcoin Developers
+Copyright (c) 2011-2014 Litecoin Developers
+Copyright (c) 2015-2015 Doctorcoin Developers
 
 Distributed under the MIT/X11 software license, see the accompanying
 file COPYING or http://www.opensource.org/licenses/mit-license.php.
@@ -29,9 +30,6 @@ Unpack the files into a directory and run:
 - bin/32/doctorcoind (headless, 32-bit)
 - bin/64/doctorcoin-qt (GUI, 64-bit)
 - bin/64/doctorcoind (headless, 64-bit)
-
-See the documentation at the [Doctorcoin Wiki](http://doctorcoin.info)
-for help and more information.
 
 
 Other Pages
