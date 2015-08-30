@@ -1,4 +1,5 @@
-![Doctorcoin logo](https://github.com/juanbond/doctorcoin/raw/master/src/qt/res/icons/bitcoin.png)
+![Doctorcoin logo](https://github.com/juanbond/doctorcoin/raw/master/src/qt/res/icons/bitcoin.png) ![MSF logo](https://github.com/juanbond/doctorcoin/raw/master/src/qt/res/icons/support-msf.png)
+
 
 Doctorcoin
 ================================
