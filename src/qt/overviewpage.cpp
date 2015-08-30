@@ -13,6 +13,7 @@
 #include "transactionfilterproxy.h"
 #include "guiutil.h"
 #include "guiconstants.h"
+#include "util.h"
 
 #include <QAbstractItemDelegate>
 #include <QPainter>
@@ -107,6 +108,15 @@ OverviewPage::OverviewPage(QWidget *parent) :
     filter(0)
 {
     ui->setupUi(this);
+	
+	QPixmap logo;
+    if(GetBoolArg("-testnet")) {
+        logo = QPixmap(":/icons/bitcoin_testnet");
+    }
+    else {
+        logo = QPixmap(":/iicons/bitcoin");
+    }
+	ui->doctorcoinLogo->setPixmap(logo);
 
     // Recent transactions
     ui->listTransactions->setItemDelegate(txdelegate);
