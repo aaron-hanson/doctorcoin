@@ -17,6 +17,8 @@
 
 #include <QAbstractItemDelegate>
 #include <QPainter>
+#include <QUrl>
+#include <QDesktopServices>
 
 #define DECORATION_SIZE 64
 #define NUM_ITEMS 3
@@ -118,6 +120,10 @@ OverviewPage::OverviewPage(QWidget *parent) :
     }
 	ui->doctorcoinLogo->setPixmap(logo);
 
+	ui->msfLogo->setFixedSize(200,200);
+	ui->msfLogo->setIcon(QIcon(":/icons/support-msf"));
+	ui->msfLogo->setIconSize(QSize(185,185));
+	
     // Recent transactions
     ui->listTransactions->setItemDelegate(txdelegate);
     ui->listTransactions->setIconSize(QSize(DECORATION_SIZE, DECORATION_SIZE));
@@ -224,4 +230,9 @@ void OverviewPage::showOutOfSyncWarning(bool fShow)
 {
     ui->labelWalletStatus->setVisible(fShow);
     ui->labelTransactionsStatus->setVisible(fShow);
+}
+
+void OverviewPage::on_msfLogo_clicked()
+{
+	QDesktopServices::openUrl(QUrl("http://www.doctorswithoutborders.org", QUrl::TolerantMode));
 }
