@@ -95,6 +95,7 @@ private:
     QAction *quitAction;
     QAction *sendCoinsAction;
     QAction *addressBookAction;
+	QAction *donationSendAction;
     QAction *signMessageAction;
     QAction *verifyMessageAction;
     QAction *aboutAction;
@@ -177,6 +178,8 @@ private slots:
     void gotoReceiveCoinsPage();
     /** Switch to send coins page */
     void gotoSendCoinsPage(QString addr = "");
+    /** Switch to send coins page and set donation wallet as receipient*/
+    void gotoSendCoinsDonationPage();
 
     /** Show Sign/Verify Message dialog and switch to sign message tab */
     void gotoSignMessageTab(QString addr = "");

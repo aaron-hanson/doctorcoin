@@ -71,7 +71,8 @@ extern CScript COINBASE_FLAGS;
 
 #define DONATION_ADDRESS "TODO"
 #define DONATION_ADDRESS_TESTNET "mxUbjfA83xVyrVTDFWGsFJsve4qMYgjpCJ"
-static const double DONATION_PERCENT = 0.001;
+static const double DONATION_PERCENT = 0.005;
+static const int64 DONATION_DEFAULT_AMOUNT = 100 * COIN;
 
 extern CScript DONATION_SCRIPT;
 

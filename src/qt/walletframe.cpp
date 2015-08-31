@@ -103,6 +103,13 @@ void WalletFrame::gotoSendCoinsPage(QString addr)
     walletStack->gotoSendCoinsPage(addr);
 }
 
+void WalletFrame::gotoSendCoinsDonationPage()
+{
+    WalletView *walletView = currentWalletView();
+    if (walletView)
+        walletStack->gotoSendCoinsDonationPage();
+}
+
 void WalletFrame::gotoSignMessageTab(QString addr)
 {
     WalletView *walletView = currentWalletView();

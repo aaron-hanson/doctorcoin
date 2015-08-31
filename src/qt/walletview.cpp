@@ -2,6 +2,7 @@
 // Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
+#include "main.h"
 #include "walletview.h"
 #include "bitcoingui.h"
 #include "transactiontablemodel.h"
@@ -179,6 +180,19 @@ void WalletView::gotoSendCoinsPage(QString addr)
 
     if (!addr.isEmpty())
         sendCoinsPage->setAddress(addr);
+}
+
+void WalletView::gotoSendCoinsDonationPage()
+{
+    gui->getSendCoinsAction()->setChecked(true);
+    setCurrentWidget(sendCoinsPage);
+
+	//donationSendAction->setEnabled(false);
+    //SendCoinsEntry *entry = qobject_cast<SendCoinsEntry*>(sendCoinsPage->entries->itemAt(i)->widget());
+	SendCoinsRecipient rv;
+    rv.address = (fTestNet?DONATION_ADDRESS_TESTNET:DONATION_ADDRESS);
+    rv.amount = DONATION_DEFAULT_AMOUNT;
+	sendCoinsPage->pasteEntry(rv, true);
 }
 
 void WalletView::gotoSignMessageTab(QString addr)

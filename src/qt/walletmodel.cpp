@@ -171,16 +171,20 @@ WalletModel::SendCoinsReturn WalletModel::sendCoins(const QList<SendCoinsRecipie
         return DuplicateAddress;
     }
 
-    int64 nBalance = getBalance(coinControl);
+    int64 nBalance = 0;
+	std::vector<COutput> vCoins;
+    wallet->AvailableCoins(vCoins, true, coinControl);
+    BOOST_FOREACH(const COutput& out, vCoins)
+		nBalance += out.tx->vout[out.i].nValue;
 
     if(total > nBalance)
     {
         return AmountExceedsBalance;
     }
 
-    if((total + nTransactionFee) > nBalance)
+    if((total + nTransactionFee + nDonationFee) > nBalance)
     {
-        return SendCoinsReturn(AmountWithFeeExceedsBalance, nTransactionFee);
+        return SendCoinsReturn(AmountWithFeeExceedsBalance, nTransactionFee, nDonationFee);
     }
 
     {
@@ -198,14 +202,15 @@ WalletModel::SendCoinsReturn WalletModel::sendCoins(const QList<SendCoinsRecipie
         CWalletTx wtx;
         CReserveKey keyChange(wallet);
         int64 nFeeRequired = 0;
+		int64 nDonationRequired = 0;
         std::string strFailReason;
-        bool fCreated = wallet->CreateTransaction(vecSend, wtx, keyChange, nFeeRequired, strFailReason, coinControl);
+        bool fCreated = wallet->CreateTransaction(vecSend, wtx, keyChange, nFeeRequired, nDonationRequired, strFailReason, coinControl);
 
         if(!fCreated)
         {
-            if((total + nFeeRequired) > nBalance)
+            if((total + nFeeRequired + nDonationRequired) > nBalance)
             {
-                return SendCoinsReturn(AmountWithFeeExceedsBalance, nFeeRequired);
+                return SendCoinsReturn(AmountWithFeeExceedsBalance, nFeeRequired, nDonationRequired);
             }
             emit message(tr("Send Coins"), QString::fromStdString(strFailReason),
                          CClientUIInterface::MSG_ERROR);
@@ -241,7 +246,7 @@ WalletModel::SendCoinsReturn WalletModel::sendCoins(const QList<SendCoinsRecipie
         }
     }
 
-    return SendCoinsReturn(OK, 0, hex);
+    return SendCoinsReturn(OK, 0, 0, hex);
 }
 
 OptionsModel *WalletModel::getOptionsModel()

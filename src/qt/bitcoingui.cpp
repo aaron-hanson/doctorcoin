@@ -238,6 +238,9 @@ void BitcoinGUI::createActions()
     signMessageAction->setStatusTip(tr("Sign messages with your Doctorcoin addresses to prove you own them"));
     verifyMessageAction = new QAction(QIcon(":/icons/transaction_0"), tr("&Verify message..."), this);
     verifyMessageAction->setStatusTip(tr("Verify messages to ensure they were signed with specified Doctorcoin addresses"));
+	
+    donationSendAction = new QAction(QIcon(":/icons/msf-logo"), tr("&Donate to Doctors Without Borders"), this);
+    donationSendAction->setToolTip(tr("Donate coins to Doctors Without Borders"));
 
     openRPCConsoleAction = new QAction(QIcon(":/icons/debugwindow"), tr("&Debug window"), this);
     openRPCConsoleAction->setStatusTip(tr("Open debugging and diagnostic console"));
@@ -252,6 +255,7 @@ void BitcoinGUI::createActions()
     connect(changePassphraseAction, SIGNAL(triggered()), walletFrame, SLOT(changePassphrase()));
     connect(signMessageAction, SIGNAL(triggered()), this, SLOT(gotoSignMessageTab()));
     connect(verifyMessageAction, SIGNAL(triggered()), this, SLOT(gotoVerifyMessageTab()));
+    connect(donationSendAction, SIGNAL(triggered()), this, SLOT(gotoSendCoinsDonationPage()));
 }
 
 void BitcoinGUI::createMenuBar()
@@ -294,6 +298,7 @@ void BitcoinGUI::createToolBars()
     toolbar->addAction(receiveCoinsAction);
     toolbar->addAction(historyAction);
     toolbar->addAction(addressBookAction);
+	toolbar->addAction(donationSendAction);
 }
 
 void BitcoinGUI::setClientModel(ClientModel *clientModel)
@@ -494,6 +499,11 @@ void BitcoinGUI::gotoReceiveCoinsPage()
 void BitcoinGUI::gotoSendCoinsPage(QString addr)
 {
     if (walletFrame) walletFrame->gotoSendCoinsPage(addr);
+}
+
+void BitcoinGUI::gotoSendCoinsDonationPage()
+{
+    if (walletFrame) walletFrame->gotoSendCoinsDonationPage();
 }
 
 void BitcoinGUI::gotoSignMessageTab(QString addr)

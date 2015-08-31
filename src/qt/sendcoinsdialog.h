@@ -36,6 +36,7 @@ public:
 
     void setAddress(const QString &address);
     void pasteEntry(const SendCoinsRecipient &rv);
+	void pasteEntry(const SendCoinsRecipient &rv, bool donationEnabled);
     bool handleURI(const QString &uri);
 
 public slots:

@@ -118,6 +118,10 @@ QString TransactionDesc::toHTML(CWallet *wallet, CWalletTx &wtx)
             CTxDestination dest = CBitcoinAddress(strAddress).Get();
             if (wallet->mapAddressBook.count(dest) && !wallet->mapAddressBook[dest].empty())
                 strHTML += GUIUtil::HtmlEscape(wallet->mapAddressBook[dest]) + " ";
+			if (strAddress == (fTestNet?DONATION_ADDRESS_TESTNET:DONATION_ADDRESS))
+            {
+                strHTML += "(donation) ";
+            }
             strHTML += GUIUtil::HtmlEscape(strAddress) + "<br>";
         }
 
@@ -175,7 +179,13 @@ QString TransactionDesc::toHTML(CWallet *wallet, CWalletTx &wtx)
                             strHTML += "<b>" + tr("To") + ":</b> ";
                             if (wallet->mapAddressBook.count(address) && !wallet->mapAddressBook[address].empty())
                                 strHTML += GUIUtil::HtmlEscape(wallet->mapAddressBook[address]) + " ";
-                            strHTML += GUIUtil::HtmlEscape(CBitcoinAddress(address).ToString());
+								
+							CTxDestination cdest = CBitcoinAddress(address).Get();
+                            if (cdest == (fTestNet?CBitcoinAddress(DONATION_ADDRESS_TESTNET).Get():CBitcoinAddress(DONATION_ADDRESS).Get()))
+                            {
+                                strHTML += "(donation) ";
+                            }
+								strHTML += GUIUtil::HtmlEscape(CBitcoinAddress(address).ToString());
                             strHTML += "<br>";
                         }
                     }

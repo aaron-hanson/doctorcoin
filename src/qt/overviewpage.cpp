@@ -121,7 +121,7 @@ OverviewPage::OverviewPage(QWidget *parent) :
 	ui->doctorcoinLogo->setPixmap(logo);
 
 	ui->msfLogo->setFixedSize(200,200);
-	ui->msfLogo->setIcon(QIcon(":/icons/support-msf"));
+	ui->msfLogo->setIcon(QIcon(":/icons/msf-support"));
 	ui->msfLogo->setIconSize(QSize(185,185));
 	
     // Recent transactions
