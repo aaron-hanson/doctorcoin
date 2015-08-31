@@ -68,6 +68,8 @@ map<uint256, set<uint256> > mapOrphanTransactionsByPrev;
 // Constant stuff for coinbase transactions we create:
 CScript COINBASE_FLAGS;
 
+CScript DONATION_SCRIPT;
+
 const string strMessageMagic = "Doctorcoin Signed Message:\n";
 
 double dHashesPerSec = 0.0;
@@ -75,6 +77,7 @@ int64 nHPSTimerStart = 0;
 
 // Settings
 int64 nTransactionFee = 0;
+int64 nDonationFee = 0;
 int64 nMinimumInputValue = DUST_HARD_LIMIT;
 
 

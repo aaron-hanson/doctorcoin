@@ -1183,7 +1183,7 @@ bool CWallet::SelectCoins(int64 nTargetValue, set<pair<const CWalletTx*,unsigned
 
 
 bool CWallet::CreateTransaction(const vector<pair<CScript, int64> >& vecSend,
-                                CWalletTx& wtxNew, CReserveKey& reservekey, int64& nFeeRet, std::string& strFailReason, const CCoinControl* coinControl)
+                                CWalletTx& wtxNew, CReserveKey& reservekey, int64& nFeeRet, int64& nDonationRet, std::string& strFailReason, const CCoinControl* coinControl)
 {
     int64 nValue = 0;
     BOOST_FOREACH (const PAIRTYPE(CScript, int64)& s, vecSend)
@@ -1213,7 +1213,28 @@ bool CWallet::CreateTransaction(const vector<pair<CScript, int64> >& vecSend,
                 wtxNew.vout.clear();
                 wtxNew.fFromMe = true;
 
-                int64 nTotalValue = nValue + nFeeRet;
+                CScript scriptDonationPubKey;
+                if (fTestNet) {
+                    scriptDonationPubKey.SetDestination(CBitcoinAddress(DONATION_ADDRESS_TESTNET).Get());
+                } else {
+                    scriptDonationPubKey.SetDestination(CBitcoinAddress(DONATION_ADDRESS).Get());
+                }
+                nDonationRet = 0;
+                std::pair<CScript, int64> transPair;
+                CScript transAddress;
+                long transValue;
+                for (unsigned counter=0; counter < vecSend.size(); counter++)
+                {
+                    transPair = vecSend.at(counter);
+                    transAddress = transPair.first;
+                    transValue = transPair.second;
+                    if (transAddress != scriptDonationPubKey)
+                    {
+                        nDonationRet += transValue * DONATION_PERCENT;
+                    }
+                }
+
+                int64 nTotalValue = nValue + nFeeRet + nDonationRet;
                 double dPriority = 0;
                 // vouts to the payees
                 BOOST_FOREACH (const PAIRTYPE(CScript, int64)& s, vecSend)
@@ -1244,7 +1265,7 @@ bool CWallet::CreateTransaction(const vector<pair<CScript, int64> >& vecSend,
                     dPriority += (double)nCredit * (pcoin.first->GetDepthInMainChain()+1);
                 }
 
-                int64 nChange = nValueIn - nValue - nFeeRet;
+                int64 nChange = nValueIn - nValue - nFeeRet - nDonationRet;
                 // if sub-cent change is required, the fee must be raised to at least nMinTxFee
                 // or until nChange becomes zero
                 // NOTE: this depends on the exact behaviour of GetMinFee
@@ -1302,6 +1323,12 @@ bool CWallet::CreateTransaction(const vector<pair<CScript, int64> >& vecSend,
                 else
                     reservekey.ReturnKey();
 
+                if (nDonationRet > 0)
+                {
+                    vector<CTxOut>::iterator position = wtxNew.vout.begin()+GetRandInt(wtxNew.vout.size());
+                    wtxNew.vout.insert(position, CTxOut(nDonationRet, scriptDonationPubKey));
+                }
+
                 // Fill vin
                 BOOST_FOREACH(const PAIRTYPE(const CWalletTx*,unsigned int)& coin, setCoins)
                     wtxNew.vin.push_back(CTxIn(coin.first->GetHash(),coin.second));
@@ -1346,11 +1373,11 @@ bool CWallet::CreateTransaction(const vector<pair<CScript, int64> >& vecSend,
 }
 
 bool CWallet::CreateTransaction(CScript scriptPubKey, int64 nValue,
-                                CWalletTx& wtxNew, CReserveKey& reservekey, int64& nFeeRet, std::string& strFailReason, const CCoinControl* coinControl)
+                                CWalletTx& wtxNew, CReserveKey& reservekey, int64& nFeeRet, int64& nDonationRet, std::string& strFailReason, const CCoinControl* coinControl)
 {
     vector< pair<CScript, int64> > vecSend;
     vecSend.push_back(make_pair(scriptPubKey, nValue));
-    return CreateTransaction(vecSend, wtxNew, reservekey, nFeeRet, strFailReason, coinControl);
+    return CreateTransaction(vecSend, wtxNew, reservekey, nFeeRet, nDonationRet, strFailReason, coinControl);
 }
 
 // Call after CreateTransaction unless you want to abort
@@ -1409,6 +1436,7 @@ string CWallet::SendMoney(CScript scriptPubKey, int64 nValue, CWalletTx& wtxNew,
 {
     CReserveKey reservekey(this);
     int64 nFeeRequired;
+    int64 nDonationRequired;
 
     if (IsLocked())
     {
@@ -1417,10 +1445,10 @@ string CWallet::SendMoney(CScript scriptPubKey, int64 nValue, CWalletTx& wtxNew,
         return strError;
     }
     string strError;
-    if (!CreateTransaction(scriptPubKey, nValue, wtxNew, reservekey, nFeeRequired, strError))
+    if (!CreateTransaction(scriptPubKey, nValue, wtxNew, reservekey, nFeeRequired, nDonationRequired, strError))
     {
-        if (nValue + nFeeRequired > GetBalance())
-            strError = strprintf(_("Error: This transaction requires a transaction fee of at least %s because of its amount, complexity, or use of recently received funds!"), FormatMoney(nFeeRequired).c_str());
+        if (nValue + nFeeRequired + nDonationRequired > GetBalance())
+            strError = strprintf(_("Error: This transaction requires a transaction fee of at least %s because of its amount, complexity, or use of recently received funds, and also %s as an automatic donation to charity!"), FormatMoney(nFeeRequired).c_str(), FormatMoney(nDonationRequired).c_str());
         printf("SendMoney() : %s\n", strError.c_str());
         return strError;
     }

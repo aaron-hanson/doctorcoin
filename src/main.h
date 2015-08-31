@@ -69,7 +69,11 @@ static const int fHaveUPnP = false;
 
 extern CScript COINBASE_FLAGS;
 
+#define DONATION_ADDRESS "TODO"
+#define DONATION_ADDRESS_TESTNET "mxUbjfA83xVyrVTDFWGsFJsve4qMYgjpCJ"
+static const double DONATION_PERCENT = 0.001;
 
+extern CScript DONATION_SCRIPT;
 
 
 
@@ -104,6 +108,7 @@ extern unsigned int nCoinCacheSize;
 // Settings
 extern int64 nTransactionFee;
 extern int64 nMinimumInputValue;
+extern int64 nDonationFee;
 
 // Minimum disk space required - used in CheckDiskSpace()
 static const uint64 nMinDiskSpace = 52428800;
