@@ -10,6 +10,7 @@ src/test_doctorcoin
 *.o
 *.patch
 .doctorcoin
+release
 
 # Compilation and Qt preprocessor part
 *.qm
