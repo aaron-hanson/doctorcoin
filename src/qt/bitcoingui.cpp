@@ -239,7 +239,7 @@ void BitcoinGUI::createActions()
     verifyMessageAction = new QAction(QIcon(":/icons/transaction_0"), tr("&Verify message..."), this);
     verifyMessageAction->setStatusTip(tr("Verify messages to ensure they were signed with specified Doctorcoin addresses"));
 	
-    donationSendAction = new QAction(QIcon(":/icons/msf-logo"), tr("&Donate to Doctors Without Borders"), this);
+    donationSendAction = new QAction(QIcon(":/icons/donate"), tr("&Donate to Doctors Without Borders"), this);
     donationSendAction->setToolTip(tr("Donate coins to Doctors Without Borders"));
 
     openRPCConsoleAction = new QAction(QIcon(":/icons/debugwindow"), tr("&Debug window"), this);

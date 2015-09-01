@@ -41,7 +41,7 @@
         <file alias="qrcode">res/icons/qrcode.png</file>
         <file alias="debugwindow">res/icons/debugwindow.png</file>
 		<file alias="msf-support">res/icons/msf-support.png</file>
-		<file alias="msf-logo">res/icons/msf-logo.png</file>
+		<file alias="donate">res/icons/donate.png</file>
     </qresource>
     <qresource prefix="/images">
         <file alias="about">res/images/about.png</file>
